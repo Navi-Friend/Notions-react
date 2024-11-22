@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 export default function Header() {
     return (
         <header className="bg-blue-600 text-white p-4">
@@ -28,7 +30,7 @@ export default function Header() {
                         </li>
                         <li>
                             <NavLink
-                            //TODO Logout
+                                //TODO Logout
                                 to="/logout"
                                 end={true}
                                 className="hover:text-blue-300">
@@ -39,6 +41,5 @@ export default function Header() {
                 </nav>
             </div>
         </header>
-
-    )
+    );
 }
