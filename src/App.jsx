@@ -7,12 +7,10 @@ const router = createBrowserRouter([
     {
         path: "/",
         element: <Wrapper />,
-        errorElement: <ErrorPage />,
+        // errorElement: <ErrorPage />,
     },
 ]);
 
-function App() {
-    <RouterProvider router={router} />;
+export default function App() {
+    return <RouterProvider router={router} />;
 }
-
-export default App;

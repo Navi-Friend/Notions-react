@@ -7,7 +7,7 @@ export default function Header() {
                 <h1 className="text-2xl font-bold">
                     //TODO username
                     <NavLink to="/home" end={true}>
-                        `Hello, ${username}!`
+                        {/* `Hello, ${username}!` */}
                     </NavLink>
                 </h1>
                 <nav>

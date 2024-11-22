@@ -8,7 +8,7 @@ export default function ErrorPage() {
 
             <NavLink
                 className="w-fit text-xl leading-8 text-blue-700 hover:text-blue-900"
-                to="/users"
+                to="/home"
                 end>
                 Return on main
             </NavLink>
