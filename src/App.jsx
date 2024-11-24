@@ -1,7 +1,4 @@
-import {
-    createBrowserRouter,
-    RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Wrapper from "./Routes/Wrapper";
 import ErrorPage from "./Routes/ErrorPage";
 import Login from "./Routes/Login";
@@ -22,6 +19,7 @@ const router = createBrowserRouter([
                 <Wrapper />
             </ProtectedRoute>
         ),
+        errorElement: <ErrorPage />,
         children: [
             {
                 index: true,
@@ -62,7 +60,7 @@ const router = createBrowserRouter([
 export default function App() {
     return (
         <UserContextProvider>
-            <RouterProvider router={router} />;
+            <RouterProvider router={router} />
         </UserContextProvider>
     );
 }

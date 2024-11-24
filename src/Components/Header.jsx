@@ -12,7 +12,7 @@ export default function Header() {
         <header className="bg-blue-600 text-white p-4">
             <div className="container mx-auto flex justify-between items-center">
                 <h1 className="text-xl font-bold">
-                    <NavLink to="/home" end={true}>
+                    <NavLink to="/" end={true}>
                         {`Hello, ${userContext.user.email}!`}
                     </NavLink>
                 </h1>

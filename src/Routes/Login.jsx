@@ -30,7 +30,6 @@ export default function Login() {
             userContext.setUser(userData);
             navigate("/");
         } catch (err) {
-            console.err(err);
             if (err instanceof z.ZodError) {
                 setErrors(err.format());
             } else if (err instanceof Error) {

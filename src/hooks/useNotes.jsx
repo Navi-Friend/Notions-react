@@ -5,7 +5,6 @@ export default function useNotes(userId) {
     const [notes, setNotes] = useState([]);
 
     useEffect(() => {
-        console.log("use Effect");
         fetch(endpoints.userData(userId))
             .then((response) => {
                 if (!response.ok) {
@@ -20,7 +19,7 @@ export default function useNotes(userId) {
                 setNotes([]);
                 throw new Error("Unable to load notes", err);
             });
-    }, [, window.location.pathname]);
+    }, [userId]);
 
     const handleAddNote = useCallback(
         (note) => {

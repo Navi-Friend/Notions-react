@@ -41,7 +41,7 @@ export default function SignUp() {
         }
     }, [email, password]);
 
-    const signUpUser = () => {
+    const signUpUser = async () => {
         const body = {
             email,
             password,
@@ -49,6 +49,16 @@ export default function SignUp() {
             uuid: uuidv4(),
             notes: [],
         };
+        try {
+
+            const existingUser = await fetchUser(email, "");
+            if (existingUser) {
+                setErrors({ userExist: "User with this email already exists" });
+                return;
+            }
+        } catch(err) {
+
+        }
         fetch(endpoints.register, {
             method: "POST",
             body: JSON.stringify(body),
@@ -59,8 +69,8 @@ export default function SignUp() {
             .then(async () => {
                 // json-server set 'id' automatically.
                 // I fetch user instead of set 'body' to get 'id' value
-                const userData = await fetchUser(email, password);
-                userContext.setUser(userData);
+                const currentUser = await fetchUser(email, password)
+                userContext.setUser(currentUser);
                 navigate("/");
             })
             .catch((err) => {
@@ -88,8 +98,8 @@ export default function SignUp() {
                 className="bg-white p-6 rounded-lg shadow-md w-96"
                 onSubmit={handleLogIn}>
                 <h2 className="text-2xl font-bold mb-4 text-center">Sign Up</h2>
-                {errors?.notFound && (
-                    <div className="text-red-500 mb-5">{errors?.notFound}</div>
+                {errors?.userExist && (
+                    <div className="text-red-500 mb-5">{errors?.userExist}</div>
                 )}
 
                 <div className="mb-2">
@@ -162,7 +172,7 @@ export default function SignUp() {
                 <button
                     onClick={handleLogIn}
                     className="w-full bg-blue-600 text-white font-bold py-2 rounded-md hover:bg-blue-700 transition duration-200">
-                    Log In
+                    Sign Up
                 </button>
             </div>
         </div>

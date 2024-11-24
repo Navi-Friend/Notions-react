@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../Components/userContext";
 import useNotes from "../hooks/useNotes";
-import {v4 as uuidv4} from "uuid"
 
 export default function Notes() {
     const userContext = useContext(UserContext);
@@ -37,7 +36,6 @@ export default function Notes() {
             <h1 className="text-5xl mb-10">Notes</h1>
             <Link
                 to="/add-note"
-                end
                 className=" bg-blue-500 text-white font-bold p-3 rounded hover:bg-blue-600 transition duration-200 mb-4">
                 Add new Note
             </Link>
@@ -60,7 +58,6 @@ export default function Notes() {
                               <div>
                                   <Link
                                       to={`/edit-note/${note.uuid}`}
-                                      end
                                       className="mr-4">
                                       ✍️
                                   </Link>

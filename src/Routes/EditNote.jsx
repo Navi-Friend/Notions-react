@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useState } from "react";
-import { Link, useLoaderData, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../Components/userContext";
 import { endpoints } from "../utils/constants";
 
@@ -47,7 +47,12 @@ export default function ReadNote() {
         setTitle(e.target.value);
     });
 
+    const [err, setErr] = useState([]);
     const handleSaveChanges = useCallback(() => {
+        if (title === "") {
+            setErr(["Title must not be empty."]);
+            return;
+        }
         fetch(endpoints.userData(userContext.user.id))
             .then((r) => r.json())
             .then((userData) => {
@@ -79,6 +84,11 @@ export default function ReadNote() {
                     Back
                 </Link>
             </div>
+            {!err.length
+                ? ""
+                : err.map((item) => (
+                      <div className="text-red-500 mb-5">{item}</div>
+                  ))}
             <input
                 type="text"
                 className="border p-3 w-full "
