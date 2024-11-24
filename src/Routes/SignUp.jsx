@@ -1,10 +1,11 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { User } from "../utils/validation";
 import { UserContext } from "../Components/userContext";
 import { endpoints } from "../utils/constants";
 import { v4 as uuidv4 } from "uuid";
+import fetchUser from "../utils/fetchUser";
 
 export default function SignUp() {
     const navigate = useNavigate();
@@ -55,19 +56,17 @@ export default function SignUp() {
                 "Content-Type": "application/json",
             },
         })
-            .then(() => {
-                const date = body.date;
-                const notes = body.notes;
-                userContext.setUser({ email, password, date, notes });
+            .then(async () => {
+                // json-server set 'id' automatically.
+                // I fetch user instead of set 'body' to get 'id' value
+                const userData = await fetchUser(email, password);
+                userContext.setUser(userData);
                 navigate("/");
             })
-            .catch(() => {
+            .catch((err) => {
                 setErrors({
                     ...errors,
-                    ...{
-                        registerError:
-                            "Something went wrong during registration",
-                    },
+                    err,
                 });
             });
     };

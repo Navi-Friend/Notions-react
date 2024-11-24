@@ -1,38 +1,76 @@
-import { useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../Components/userContext";
+import { endpoints } from "../utils/constants";
 
-export default function ReadNote({ noteId }) {
+export default function ReadNote() {
+    const { noteUUID } = useParams();
+
     const userContext = useContext(UserContext);
-    const history = useHistory();
+    const navigate = useNavigate();
 
-    const note = userContext.user.notes.find(note => note.id === noteId);
+    const [note, setNote] = useState({});
 
-    if (!note) {
-        return <div>Заметка не найдена.</div>;
-    }
+    useEffect(() => {
+        const fetchNote = async () => {
+            try {
+                const response = await fetch(
+                    endpoints.userData(userContext.user.id)
+                );
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                const userData = await response.json();
+                const foundNote = userData.notes.find(
+                    (n) => n.uuid === noteUUID
+                ); 
+                setNote(foundNote);
+            } catch (error) {
+                console.error("Error fetching note:", error);
+            }
+        };
+
+        fetchNote();
+    }, [noteUUID, userContext.user.id]);
 
     const handleDeleteNote = () => {
-        const updatedNotes = userContext.user.notes.filter(note => note.id !== noteId);
-        userContext.setUser({ ...userContext.user, notes: updatedNotes });
-        history.push("/notes"); // Перенаправляем на страницу заметок
+        fetch(endpoints.userData(userContext.user.id))
+            .then((r) => r.json())
+            .then((userData) => {
+                userData.notes = userData.notes.filter(
+                    (note) => note.uuid !== noteUUID
+                );
+                fetch(endpoints.userData(userContext.user.id), {
+                    method: "PUT",
+                    body: JSON.stringify(userData),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }).then(() => {
+                    navigate("/notes");
+                });
+            });
     };
 
     return (
-        <div className="text-2xl flex flex-col gap-3 items-center">
+        <div className="text-2xl flex flex-col gap-3 items-center w-1/2">
             <h1 className="text-4xl">{note.title}</h1>
-            <div className="flex justify-between w-full">
-                <Link to={`/edit-note/${noteId}`} className="mr-4">
-                    ✍️ Редактировать
+            <div className="flex w-full justify-between">
+                <Link
+                    to="/notes"
+                    className="justify-self-start bg-gray-400 p-1.5 rounded">
+                    Back
                 </Link>
-                <button onClick={handleDeleteNote} className="text-red-500">
-                    🗑 Удалить
-                </button>
+                <div>
+                    <Link to={`/edit-note/${note.uuid}`} className="mr-4">
+                        ✍️
+                    </Link>
+                    <button onClick={handleDeleteNote} className="text-red-500">
+                        🗑
+                    </button>
+                </div>
             </div>
-            <pre className="border p-3 w-full">{note.description}</pre> {/* Используем <pre> для отображения текста */}
-            <Link to="/notes" className="mt-4">
-                Назад
-            </Link>
+            <textarea className="border p-3 w-full h-52 resize-none focus-visible:none outline-none" value={note.description} ></textarea>
         </div>
     );
 }

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { User } from "../utils/validation";
 import { UserContext } from "../Components/userContext";
-import { endpoints } from "../utils/constants";
+import fetchUser from "../utils/fetchUser";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -20,39 +20,27 @@ export default function Login() {
     });
 
     const [errors, setErrors] = useState(null);
-    const handleLogIn = useCallback(() => {
+    const handleLogIn = useCallback(async () => {
         try {
             User.parse({ email, password });
             setErrors(null);
 
-            fetchUser();
+            const userData = await fetchUser(email, password);
+            console.log(userData)
+            userContext.setUser(userData);
+            navigate("/");
         } catch (err) {
+            console.err(err);
             if (err instanceof z.ZodError) {
                 setErrors(err.format());
+            } else if (err instanceof Error) {
+                setErrors({
+                    notFound:
+                        "User with this email and password does not found",
+                });
             }
         }
     }, [email, password]);
-
-    const fetchUser = () => {
-        fetch(endpoints.login(email, password))
-            .then((r) => r.json())
-            .then((users) => {
-                if (users.length === 1) {
-                    const date = users[0].date;
-                    const notes = users[0].notes;
-                    userContext.setUser({ email, password, date, notes });
-                    navigate("/");
-                } else {
-                    setErrors({
-                        ...errors,
-                        ...{
-                            notFound:
-                                "User with this email and password is not found",
-                        },
-                    });
-                }
-            });
-    };
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">

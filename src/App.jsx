@@ -1,7 +1,5 @@
-import { Children, useState } from "react";
 import {
     createBrowserRouter,
-    redirect,
     RouterProvider,
 } from "react-router-dom";
 import Wrapper from "./Routes/Wrapper";
@@ -13,6 +11,8 @@ import About from "./Routes/About";
 import SignUp from "./Routes/SignUp";
 import Notes from "./Routes/Notes";
 import ReadNote from "./Routes/ReadNote";
+import EditNote from "./Routes/EditNote";
+import AddNote from "./Routes/AddNote";
 
 const router = createBrowserRouter([
     {
@@ -32,16 +32,16 @@ const router = createBrowserRouter([
                 element: <Notes />,
             },
             {
-                path: "/read-note",
+                path: "/read-note/:noteUUID",
                 element: <ReadNote />,
             },
             {
-                path: "/edit-note",
-                element: <Notes />,
+                path: "/edit-note/:noteUUID",
+                element: <EditNote />,
             },
             {
                 path: "/add-note",
-                element: <Notes />,
+                element: <AddNote />,
             },
             {
                 path: "*",
