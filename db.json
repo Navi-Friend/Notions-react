@@ -1,0 +1,37 @@
+{
+    "users": [
+        {
+            "email": "asdf@gmail.com",
+            "password": "asdfA@1fdsa",
+            "id": "ae65"
+        },
+        {
+            "id": "9fc8",
+            "email": "konovalovivan@gmail.com",
+            "password": "Navi1111zzzz",
+            "date": 1732669592760,
+            "uuid": "1ce86b4d-a774-48cc-85eb-60e0bfe8901a",
+            "notes": [
+                {
+                    "title": "Note1",
+                    "description": "Description1",
+                    "date": 1732669592760
+                }
+            ]
+        },
+        {
+            "id": "6b1c",
+            "email": "asdf@asdf.com",
+            "password": "Aasdf123",
+            "date": 1732670315558,
+            "uuid": "33fcb708-b33c-4c15-902b-0ca4df90c173"
+        },
+        {
+            "id": "0788",
+            "email": "asdfsadf@asdf.sadf",
+            "password": "asdfA132",
+            "date": 1732670381829,
+            "uuid": "e134c238-7d76-45f3-b757-10ceb3db801d"
+        }
+    ]
+}
