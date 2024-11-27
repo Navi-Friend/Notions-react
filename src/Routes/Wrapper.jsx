@@ -6,7 +6,7 @@ export default function Wrapper() {
     return (
         <div className="flex flex-col min-h-screen">
             <Header />
-            <main className="flex flex-col">
+            <main className="flex flex-col items-center justify-center p-12">
                 <Outlet />
             </main>
             <Footer />
