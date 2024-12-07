@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Route, RouterProvider } from "react-router-dom";
 import Wrapper from "./Routes/Wrapper";
 import ErrorPage from "./Routes/ErrorPage";
 import Login from "./Routes/Login";
@@ -56,6 +56,7 @@ const router = createBrowserRouter([
         element: <SignUp />,
     },
 ]);
+
 
 export default function App() {
     return (
